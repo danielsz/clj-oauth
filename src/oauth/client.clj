@@ -105,15 +105,13 @@ Authorization HTTP header or added as query parameters to the request."
   ([consumer]
      (request-token consumer nil))
 
-  ([consumer callback-uri]
+  ([consumer callback-uri & [request-params]]
      (let [unsigned-params (sig/oauth-params consumer
                                              (sig/rand-str 30)
-                                             (sig/msecs->secs (System/currentTimeMillis)))
-           unsigned-params (if callback-uri
-                             (assoc unsigned-params
-                               :oauth_callback callback-uri)
-                             unsigned-params)]
-       (get-oauth-token consumer (:request-uri consumer) unsigned-params))))
+                                             (sig/msecs->secs (System/currentTimeMillis)))]
+       (get-oauth-token consumer (:request-uri consumer) (-> unsigned-params
+                                                             (conj (when callback-uri [:oauth_callback callback-uri]))
+                                                             (merge request-params))))))
 
 (defn access-token
   "Exchange a request token for an access token.
