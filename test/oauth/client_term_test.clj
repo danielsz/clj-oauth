@@ -9,7 +9,7 @@
                                 "http://term.ie/oauth/example/echo_api.php"
                                 :hmac-sha1))
 
-(deftest
+#_(deftest
     #^{:doc "Test with http://term.ie server.
             Considered to pass if no exception is thrown."}
   request-token

@@ -104,7 +104,6 @@ Authorization HTTP header or added as query parameters to the request."
   "Fetch request token for the consumer."
   ([consumer]
      (request-token consumer nil))
-
   ([consumer callback-uri & [request-params]]
      (let [unsigned-params (sig/oauth-params consumer
                                              (sig/rand-str 30)
